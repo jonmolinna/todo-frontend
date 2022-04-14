@@ -50,7 +50,6 @@ const Login = () => {
       setForm(initialForm);
       history.push("/");
     } catch (err) {
-      console.log(err.response);
       dispatch({
         type: "LOGIN_FAILURE",
         payload: err.response.data,
