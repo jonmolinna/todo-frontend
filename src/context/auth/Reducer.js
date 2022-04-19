@@ -7,6 +7,7 @@ const Reducer = (state, action) => {
         error: null,
       };
     case "LOGIN_SUCCESS":
+      localStorage.setItem("token-todo", action.payload.token);
       return {
         user: action.payload,
         isLoading: false,
@@ -19,6 +20,7 @@ const Reducer = (state, action) => {
         error: action.payload,
       };
     case "LOGOUT":
+      localStorage.removeItem("token-todo");
       return {
         user: null,
         isLoading: false,

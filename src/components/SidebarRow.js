@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
 
-const SidebarRow = ({ Icon, title, cantTasks }) => {
+const SidebarRow = ({ Icon, title, tasks }) => {
   return (
     <Box
       sx={{
@@ -16,12 +16,24 @@ const SidebarRow = ({ Icon, title, cantTasks }) => {
       }}
     >
       <Icon />
-      <Typography sx={{ marginLeft: "1ch" }} variant="body2" component="p">
+      <Typography
+        sx={{
+          marginLeft: "1ch",
+          maxWidth: "100%",
+          overflow: "hidden",
+          whiteSpace: "nowrap",
+          textOverflow: "ellipsis",
+        }}
+        variant="body2"
+        component="p"
+      >
         {title}
       </Typography>
-      <Typography sx={{ marginLeft: "auto" }} variant="body2" component="p">
-        {cantTasks}
-      </Typography>
+      {tasks && tasks.length > 0 && (
+        <Typography sx={{ marginLeft: "auto" }} variant="body2" component="p">
+          {tasks.length}
+        </Typography>
+      )}
     </Box>
   );
 };

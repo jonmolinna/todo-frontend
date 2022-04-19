@@ -8,6 +8,7 @@ import { CssBaseline } from "@mui/material";
 // Context
 import { ContextProvider } from "./context/auth/Context";
 import { ContextProviderRegister } from "./context/register/Context";
+import { ContextProviderList } from "./context/lists/Context";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -15,7 +16,9 @@ root.render(
     <CssBaseline />
     <ContextProvider>
       <ContextProviderRegister>
-        <App />
+        <ContextProviderList>
+          <App />
+        </ContextProviderList>
       </ContextProviderRegister>
     </ContextProvider>
   </>
