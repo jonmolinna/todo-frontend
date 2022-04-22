@@ -1,40 +1,46 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
+import { Link } from "react-router-dom";
 
-const SidebarRow = ({ Icon, title, tasks }) => {
+const SidebarRow = ({ Icon, title, tasks, idList }) => {
   return (
-    <Box
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        paddingY: "10px",
-        paddingX: "1rem",
-        "&:hover": {
-          backgroundColor: "#eeeeee",
-          cursor: "pointer",
-        },
-      }}
+    <Link
+      to={`/list/${idList}`}
+      style={{ textDecoration: "none", color: "#000" }}
     >
-      <Icon />
-      <Typography
+      <Box
         sx={{
-          marginLeft: "1ch",
-          maxWidth: "100%",
-          overflow: "hidden",
-          whiteSpace: "nowrap",
-          textOverflow: "ellipsis",
+          display: "flex",
+          alignItems: "center",
+          paddingY: "10px",
+          paddingX: "1rem",
+          "&:hover": {
+            backgroundColor: "#eeeeee",
+            cursor: "pointer",
+          },
         }}
-        variant="body2"
-        component="p"
       >
-        {title}
-      </Typography>
-      {tasks && tasks.length > 0 && (
-        <Typography sx={{ marginLeft: "auto" }} variant="body2" component="p">
-          {tasks.length}
+        <Icon />
+        <Typography
+          sx={{
+            marginLeft: "1ch",
+            maxWidth: "100%",
+            overflow: "hidden",
+            whiteSpace: "nowrap",
+            textOverflow: "ellipsis",
+          }}
+          variant="body2"
+          component="p"
+        >
+          {title}
         </Typography>
-      )}
-    </Box>
+        {tasks && tasks.length > 0 && (
+          <Typography sx={{ marginLeft: "auto" }} variant="body2" component="p">
+            {tasks.length}
+          </Typography>
+        )}
+      </Box>
+    </Link>
   );
 };
 

@@ -2,8 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import { Avatar, Box, Typography, Button } from "@mui/material";
 import { blueGrey } from "@mui/material/colors";
 import SidebarRow from "./SidebarRow";
-import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
-import GradeOutlinedIcon from "@mui/icons-material/GradeOutlined";
+// import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
+// import GradeOutlinedIcon from "@mui/icons-material/GradeOutlined";
 import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
 import AddIcon from "@mui/icons-material/Add";
 import InputBase from "@mui/material/InputBase";
@@ -25,6 +25,8 @@ const Sidebar = () => {
       type: "LOGOUT",
     });
   };
+
+  console.log("YOOO", list);
 
   useEffect(() => {
     const getAllListByUser = async (token) => {
@@ -89,18 +91,30 @@ const Sidebar = () => {
   };
 
   return (
-    <Box component="div">
-      <Typography
-        variant="h5"
-        component="h1"
+    <Box
+      component="div"
+      sx={{
+        height: "100vh",
+      }}
+    >
+      <Box
         sx={{
-          textAlign: "center",
-          borderBottom: "2px solid #eeeeee",
-          paddingBottom: "1rem",
+          height: "3rem",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
-        To - Do
-      </Typography>
+        <Typography
+          variant="h5"
+          component="h1"
+          sx={{
+            textAlign: "center",
+          }}
+        >
+          To - Do
+        </Typography>
+      </Box>
 
       <Box
         component="div"
@@ -108,7 +122,7 @@ const Sidebar = () => {
           display: "flex",
           alignItems: "center",
           paddingX: "1rem",
-          marginTop: "1rem",
+          height: "3rem",
         }}
       >
         <Avatar
@@ -137,51 +151,60 @@ const Sidebar = () => {
       </Box>
 
       <Box
-        component="div"
         sx={{
-          marginTop: "1rem",
+          overflowY: "auto",
+          overflowX: "hidden",
+          height: "calc(100vh - 3rem - 3rem)",
         }}
+        className="scroll_body"
       >
-        <SidebarRow Icon={LightModeOutlinedIcon} title="Mi Día" cantTasks={0} />
-        <SidebarRow Icon={GradeOutlinedIcon} title="Importante" cantTasks={0} />
-      </Box>
+        <Box
+          component="div"
+          sx={{
+            marginTop: "1rem",
+          }}
+        >
+          {/* <SidebarRow Icon={LightModeOutlinedIcon} title="Mi Día" cantTasks={0} />
+        <SidebarRow Icon={GradeOutlinedIcon} title="Importante" cantTasks={0} /> */}
+        </Box>
+        <Box component="div">
+          {list &&
+            list.map(({ nameList, id, tasks }) => (
+              <SidebarRow
+                key={id}
+                Icon={ListOutlinedIcon}
+                title={nameList}
+                tasks={tasks}
+                idList={id}
+              />
+            ))}
+        </Box>
 
-      <Box component="div">
-        {list &&
-          list.map(({ nameList, id, tasks }) => (
-            <SidebarRow
-              key={id}
-              Icon={ListOutlinedIcon}
-              title={nameList}
-              tasks={tasks}
+        <Box
+          component="div"
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            paddingY: "10px",
+            paddingX: "1rem",
+            "&:hover": {
+              backgroundColor: "#eeeeee",
+              cursor: "pointer",
+            },
+          }}
+        >
+          <AddIcon />
+          <Box component="form" onSubmit={handleSendList}>
+            <InputBase
+              placeholder="Nueva lista"
+              name="nameList"
+              value={nameList}
+              onChange={(e) => setNameList(e.target.value)}
             />
-          ))}
-      </Box>
-
-      <Box
-        component="div"
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          paddingY: "10px",
-          paddingX: "1rem",
-          "&:hover": {
-            backgroundColor: "#eeeeee",
-            cursor: "pointer",
-          },
-        }}
-      >
-        <AddIcon />
-        <Box component="form" onSubmit={handleSendList}>
-          <InputBase
-            placeholder="Nueva lista"
-            name="nameList"
-            value={nameList}
-            onChange={(e) => setNameList(e.target.value)}
-          />
-          <Button type="submit" sx={{ display: "none" }}>
-            Send
-          </Button>
+            <Button type="submit" sx={{ display: "none" }}>
+              Send
+            </Button>
+          </Box>
         </Box>
       </Box>
     </Box>

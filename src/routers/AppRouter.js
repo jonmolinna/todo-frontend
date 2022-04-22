@@ -5,6 +5,8 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 
 import { Context } from "../context/auth/Context";
+import Error404 from "../pages/Error404";
+import TaskPage from "../pages/TaskPage";
 
 const AppRouter = () => {
   const { user } = useContext(Context);
@@ -26,6 +28,12 @@ const AppRouter = () => {
         path="/register"
         render={() => (user ? <Redirect to="/" /> : <Register />)}
       />
+      <Route
+        exact
+        path="/list/:idList"
+        render={() => (user ? <TaskPage /> : <Redirect to="/login" />)}
+      />
+      <Route path="*" component={Error404} />
     </Switch>
   );
 };
