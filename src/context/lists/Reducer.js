@@ -35,6 +35,40 @@ const Reducer = (state, action) => {
         isLoading: false,
         error: action.payload,
       };
+    case "DELETE_ONE_TASK_BY_LIST":
+      const { idList, idTask } = action.payload;
+      return {
+        ...state,
+        list: state.list.map((item) =>
+          item.id === idList
+            ? {
+                ...item,
+                tasks: item.tasks.filter((task) => task.id !== idTask),
+              }
+            : item
+        ),
+      };
+    case "UPDATED_ONE_TASK_BY_LIST":
+      const task = action.payload;
+      return {
+        ...state,
+        list: state.list.map((item) =>
+          item.id === task.idList
+            ? {
+                ...item,
+                tasks: item.tasks.map((tarea) =>
+                  tarea.id === task.id
+                    ? {
+                        ...tarea,
+                        completed: task.completed,
+                        important: task.important,
+                      }
+                    : tarea
+                ),
+              }
+            : item
+        ),
+      };
     default:
       return state;
   }

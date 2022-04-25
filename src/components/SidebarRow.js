@@ -3,6 +3,13 @@ import { Box, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 
 const SidebarRow = ({ Icon, title, tasks, idList }) => {
+  const numberTaskNoCompleted = tasks?.reduce((acc, task) => {
+    if (task.completed === false) {
+      acc++;
+    }
+    return acc;
+  }, 0);
+
   return (
     <Link
       to={`/list/${idList}`}
@@ -36,7 +43,7 @@ const SidebarRow = ({ Icon, title, tasks, idList }) => {
         </Typography>
         {tasks && tasks.length > 0 && (
           <Typography sx={{ marginLeft: "auto" }} variant="body2" component="p">
-            {tasks.length}
+            {numberTaskNoCompleted}
           </Typography>
         )}
       </Box>

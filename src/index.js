@@ -9,6 +9,7 @@ import { CssBaseline } from "@mui/material";
 import { ContextProvider } from "./context/auth/Context";
 import { ContextProviderRegister } from "./context/register/Context";
 import { ContextProviderList } from "./context/lists/Context";
+import { ContextProviderTodo } from "./context/todo/Context";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -17,7 +18,9 @@ root.render(
     <ContextProvider>
       <ContextProviderRegister>
         <ContextProviderList>
-          <App />
+          <ContextProviderTodo>
+            <App />
+          </ContextProviderTodo>
         </ContextProviderList>
       </ContextProviderRegister>
     </ContextProvider>

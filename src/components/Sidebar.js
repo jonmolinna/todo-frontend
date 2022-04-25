@@ -26,8 +26,6 @@ const Sidebar = () => {
     });
   };
 
-  console.log("YOOO", list);
-
   useEffect(() => {
     const getAllListByUser = async (token) => {
       dispatchList({
@@ -82,7 +80,6 @@ const Sidebar = () => {
       });
       setNameList("");
     } catch (err) {
-      console.log(">>>>>>", err.response.data);
       dispatchList({
         type: "ADD_ONE_LIST_FAILURE",
         payload: err.response.data,
