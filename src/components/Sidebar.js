@@ -13,16 +13,26 @@ import { ContextList } from "../context/lists/Context";
 import { chatAt } from "../util/chatAt";
 import { Capitalize } from "../util/capitalize";
 import axios from "../util/axios";
+import { ContextTodo } from "../context/todo/Context";
 
 const Sidebar = () => {
   const { user, dispatch } = useContext(Context);
   const { dispatch: dispatchList, list } = useContext(ContextList);
   const [nameList, setNameList] = useState("");
   const token = window.localStorage.getItem("token-todo");
+  const { dispatch: dispatchTodo } = useContext(ContextTodo);
 
   const hanbleLogout = () => {
     dispatch({
       type: "LOGOUT",
+    });
+
+    dispatchTodo({
+      type: "RESET_TODO",
+    });
+
+    dispatchList({
+      type: "RESET_LISTS",
     });
   };
 

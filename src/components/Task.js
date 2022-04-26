@@ -134,7 +134,7 @@ const Task = ({ task }) => {
           variant="body2"
           sx={{ marginLeft: "auto", fontSize: "10px" }}
         >
-          {moment(task?.date).format("LLL")}
+          {moment(task?.date).format("L")}
         </Typography>
       </Box>
       {/* Modal Delete */}

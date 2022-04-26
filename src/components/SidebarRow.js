@@ -41,7 +41,7 @@ const SidebarRow = ({ Icon, title, tasks, idList }) => {
         >
           {title}
         </Typography>
-        {tasks && tasks.length > 0 && (
+        {tasks && numberTaskNoCompleted > 0 && (
           <Typography sx={{ marginLeft: "auto" }} variant="body2" component="p">
             {numberTaskNoCompleted}
           </Typography>

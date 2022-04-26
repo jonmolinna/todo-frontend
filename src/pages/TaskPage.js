@@ -1,19 +1,24 @@
 import React, { useContext, useEffect } from "react";
 import Layout from "../layouts/Layout";
-import { Box, Typography, Input, Button, IconButton } from "@mui/material";
+import { Box, Typography, Button, IconButton } from "@mui/material";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
-import AddIcon from "@mui/icons-material/Add";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useParams } from "react-router-dom";
 import TodoPage from "../components/TodoPage";
+import { useHistory } from "react-router-dom";
 
 import { ContextTodo } from "../context/todo/Context.js";
 import axios from "../util/axios";
+import ModalDeleteList from "../components/modal/ModalDeleteList";
+import { useModal } from "../hooks/useModal";
+import TaskAdd from "../components/TaskAdd";
 
 const TaskPage = () => {
   const { idList } = useParams();
   const { dispatch, todo } = useContext(ContextTodo);
   const token = window.localStorage.getItem("token-todo");
+  let history = useHistory();
+  const [isOpen, openModal, closeModal] = useModal(false);
 
   useEffect(() => {
     const getAllTodoByUserAndList = async (token, idList) => {
@@ -49,6 +54,13 @@ const TaskPage = () => {
     getAllTodoByUserAndList(token, idList);
   }, [dispatch, token, idList]);
 
+  const handleClickHome = () => {
+    history.push("/");
+    dispatch({
+      type: "RESET_TODO",
+    });
+  };
+
   return (
     <Layout>
       <Box component="div" sx={{ height: "100vh" }}>
@@ -67,7 +79,7 @@ const TaskPage = () => {
               alignItems: "center",
             }}
           >
-            <IconButton>
+            <IconButton onClick={handleClickHome}>
               <ArrowBackIcon />
             </IconButton>
             {todo && (
@@ -85,6 +97,7 @@ const TaskPage = () => {
             variant="contained"
             startIcon={<DeleteOutlinedIcon />}
             size="small"
+            onClick={() => openModal()}
           >
             Eliminar
           </Button>
@@ -97,11 +110,8 @@ const TaskPage = () => {
             display: "flex",
           }}
         >
-          <AddIcon />
-          <Box sx={{ width: "100%" }}>
-            <Input placeholder="Agregar una tarea" fullWidth />
-            <Input type="datetime-local" />
-          </Box>
+          {/* Add Task */}
+          <TaskAdd idList={idList} />
         </Box>
         <Box
           sx={{
@@ -125,6 +135,11 @@ const TaskPage = () => {
           )}
         </Box>
       </Box>
+      <ModalDeleteList
+        isOpen={isOpen}
+        closeModal={closeModal}
+        idList={idList}
+      />
     </Layout>
   );
 };

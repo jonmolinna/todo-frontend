@@ -69,6 +69,26 @@ const Reducer = (state, action) => {
             : item
         ),
       };
+    case "RESET_LISTS":
+      return {
+        list: [],
+        isLoading: false,
+        error: null,
+      };
+    case "ADD_ONE_TASK_BY_LIST": {
+      const { list: idList, ...task } = action.payload;
+      return {
+        ...state,
+        list: state.list.map((item) =>
+          item.id === parseInt(idList)
+            ? {
+                ...item,
+                tasks: [task, ...item.tasks],
+              }
+            : item
+        ),
+      };
+    }
     default:
       return state;
   }

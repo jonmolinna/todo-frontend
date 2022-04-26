@@ -61,6 +61,34 @@ const Reducer = (state, action) => {
         isLoading: false,
         error: action.payload,
       };
+    case "RESET_TODO":
+      return {
+        todo: null,
+        isLoading: false,
+        error: null,
+      };
+    case "ADD_ONE_TODO_START":
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case "ADD_ONE_TODO_SUCCESS":
+      const task = action.payload;
+      const { list, ...rest } = task;
+      return {
+        ...state,
+        todo: {
+          ...state.todo,
+          tasks: [rest, ...state.todo.tasks],
+        },
+        isLoading: false,
+      };
+    case "ADD_ONE_TODO_FAILURE":
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload,
+      };
     default:
       return state;
   }
