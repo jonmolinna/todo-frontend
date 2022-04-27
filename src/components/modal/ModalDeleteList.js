@@ -20,12 +20,12 @@ const ModalDeleteList = ({ isOpen, closeModal, idList }) => {
         },
       };
 
-      const res = await axios(`/list/${idList}`, options);
+      await axios(`/list/${idList}`, options);
       dispatchTodo({
         type: "RESET_TODO",
       });
       history.push("/");
-      console.log(res);
+      // console.log(res);
     } catch (err) {
       console.log(err.response);
     } finally {

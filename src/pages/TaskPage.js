@@ -12,10 +12,11 @@ import axios from "../util/axios";
 import ModalDeleteList from "../components/modal/ModalDeleteList";
 import { useModal } from "../hooks/useModal";
 import TaskAdd from "../components/TaskAdd";
+import Error404 from "./Error404";
 
 const TaskPage = () => {
   const { idList } = useParams();
-  const { dispatch, todo } = useContext(ContextTodo);
+  const { dispatch, todo, error } = useContext(ContextTodo);
   const token = window.localStorage.getItem("token-todo");
   let history = useHistory();
   const [isOpen, openModal, closeModal] = useModal(false);
@@ -63,83 +64,89 @@ const TaskPage = () => {
 
   return (
     <Layout>
-      <Box component="div" sx={{ height: "100vh" }}>
-        <Box
-          sx={{
-            height: "3rem",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <Box
-            sx={{
-              height: "3rem",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <IconButton onClick={handleClickHome}>
-              <ArrowBackIcon />
-            </IconButton>
-            {todo && (
-              <Typography
-                variant="h6"
-                component="h2"
-                sx={{ marginRight: "1ch" }}
-              >
-                {todo?.nameList}
-              </Typography>
-            )}
-          </Box>
-          <Button
-            color="error"
-            variant="contained"
-            startIcon={<DeleteOutlinedIcon />}
-            size="small"
-            onClick={() => openModal()}
-          >
-            Eliminar
-          </Button>
-        </Box>
-        <Box
-          sx={{
-            backgroundColor: "#dddddd",
-            height: "6rem",
-            padding: "10px 1rem",
-            display: "flex",
-          }}
-        >
-          {/* Add Task */}
-          <TaskAdd idList={idList} />
-        </Box>
-        <Box
-          sx={{
-            overflowY: "auto",
-            overflowX: "hidden",
-            height: "calc(100vh - 6rem - 3rem)",
-            paddingRight: "7px",
-          }}
-          className="scroll_body"
-        >
-          {todo && todo?.tasks?.length > 0 ? (
-            <TodoPage todos={todo.tasks} />
-          ) : (
-            <Typography
-              variant="h6"
-              component="h2"
-              sx={{ textAlign: "center", marginTop: "10px" }}
+      {error?.msg ? (
+        <Error404 />
+      ) : (
+        <>
+          <Box component="div" sx={{ height: "100vh" }}>
+            <Box
+              sx={{
+                height: "3rem",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
             >
-              No tienes Tareas
-            </Typography>
-          )}
-        </Box>
-      </Box>
-      <ModalDeleteList
-        isOpen={isOpen}
-        closeModal={closeModal}
-        idList={idList}
-      />
+              <Box
+                sx={{
+                  height: "3rem",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <IconButton onClick={handleClickHome}>
+                  <ArrowBackIcon />
+                </IconButton>
+                {todo && (
+                  <Typography
+                    variant="h6"
+                    component="h2"
+                    sx={{ marginRight: "1ch" }}
+                  >
+                    {todo?.nameList}
+                  </Typography>
+                )}
+              </Box>
+              <Button
+                color="error"
+                variant="contained"
+                startIcon={<DeleteOutlinedIcon />}
+                size="small"
+                onClick={() => openModal()}
+              >
+                Eliminar
+              </Button>
+            </Box>
+            <Box
+              sx={{
+                backgroundColor: "#dddddd",
+                height: "6rem",
+                padding: "10px 1rem",
+                display: "flex",
+              }}
+            >
+              {/* Add Task */}
+              <TaskAdd idList={idList} />
+            </Box>
+            <Box
+              sx={{
+                overflowY: "auto",
+                overflowX: "hidden",
+                height: "calc(100vh - 6rem - 3rem)",
+                paddingRight: "7px",
+              }}
+              className="scroll_body"
+            >
+              {todo && todo?.tasks?.length > 0 ? (
+                <TodoPage todos={todo.tasks} />
+              ) : (
+                <Typography
+                  variant="h6"
+                  component="h2"
+                  sx={{ textAlign: "center", marginTop: "10px" }}
+                >
+                  No tienes Tareas
+                </Typography>
+              )}
+            </Box>
+          </Box>
+          <ModalDeleteList
+            isOpen={isOpen}
+            closeModal={closeModal}
+            idList={idList}
+          />
+        </>
+      )}
     </Layout>
   );
 };

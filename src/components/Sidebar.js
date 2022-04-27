@@ -2,8 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { Avatar, Box, Typography, Button } from "@mui/material";
 import { blueGrey } from "@mui/material/colors";
 import SidebarRow from "./SidebarRow";
-// import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
-// import GradeOutlinedIcon from "@mui/icons-material/GradeOutlined";
 import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
 import AddIcon from "@mui/icons-material/Add";
 import InputBase from "@mui/material/InputBase";
@@ -14,6 +12,8 @@ import { chatAt } from "../util/chatAt";
 import { Capitalize } from "../util/capitalize";
 import axios from "../util/axios";
 import { ContextTodo } from "../context/todo/Context";
+import SnackbarSucces from "./messages/SnackbarMessage";
+import { useMessage } from "../hooks/useMessage";
 
 const Sidebar = () => {
   const { user, dispatch } = useContext(Context);
@@ -21,6 +21,7 @@ const Sidebar = () => {
   const [nameList, setNameList] = useState("");
   const token = window.localStorage.getItem("token-todo");
   const { dispatch: dispatchTodo } = useContext(ContextTodo);
+  const [isOpenMessage, openMessage, closeMessage] = useMessage(false);
 
   const hanbleLogout = () => {
     dispatch({
@@ -67,6 +68,9 @@ const Sidebar = () => {
 
   const handleSendList = async (e) => {
     e.preventDefault();
+
+    if (!nameList.trim()) return null;
+
     dispatchList({
       type: "ADD_ONE_LIST_START",
     });
@@ -89,6 +93,7 @@ const Sidebar = () => {
         payload: res.data,
       });
       setNameList("");
+      openMessage();
     } catch (err) {
       dispatchList({
         type: "ADD_ONE_LIST_FAILURE",
@@ -170,10 +175,7 @@ const Sidebar = () => {
           sx={{
             marginTop: "1rem",
           }}
-        >
-          {/* <SidebarRow Icon={LightModeOutlinedIcon} title="Mi Día" cantTasks={0} />
-        <SidebarRow Icon={GradeOutlinedIcon} title="Importante" cantTasks={0} /> */}
-        </Box>
+        ></Box>
         <Box component="div">
           {list &&
             list.map(({ nameList, id, tasks }) => (
@@ -214,6 +216,14 @@ const Sidebar = () => {
           </Box>
         </Box>
       </Box>
+
+      {/* Message Success */}
+      <SnackbarSucces
+        message="Se agrego una nueva lista"
+        isOpenMessage={isOpenMessage}
+        closeMessage={closeMessage}
+        severity="success"
+      />
     </Box>
   );
 };

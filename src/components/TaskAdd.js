@@ -5,6 +5,8 @@ import { Box, Button, Input } from "@mui/material";
 import axios from "../util/axios";
 import { ContextTodo } from "../context/todo/Context";
 import { ContextList } from "../context/lists/Context";
+import SnackbarMessage from "./messages/SnackbarMessage";
+import { useMessage } from "../hooks/useMessage";
 
 const TaskAdd = ({ idList }) => {
   const [title, setTitle] = useState("");
@@ -12,9 +14,17 @@ const TaskAdd = ({ idList }) => {
   const token = window.localStorage.getItem("token-todo");
   const { dispatch: dispatchTodo } = useContext(ContextTodo);
   const { dispatch: dispatchList } = useContext(ContextList);
+  const [isOpenMessage, openMessage, closeMessage] = useMessage(false);
 
   const handleSubmitTask = async (idList) => {
     const newDate = date.split("-").join(",");
+    const isDateCorrect =
+      new Date(newDate).toLocaleDateString() >= new Date().toLocaleDateString();
+
+    if (!isDateCorrect) {
+      openMessage();
+      return null;
+    }
 
     dispatchTodo({
       type: "ADD_ONE_TODO_START",
@@ -84,6 +94,12 @@ const TaskAdd = ({ idList }) => {
           </Button>
         </Box>
       </Box>
+      <SnackbarMessage
+        message="Ingrese una fecha valida"
+        isOpenMessage={isOpenMessage}
+        closeMessage={closeMessage}
+        severity="error"
+      />
     </>
   );
 };
