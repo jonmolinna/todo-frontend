@@ -48,7 +48,7 @@ const Login = () => {
         payload: res.data,
       });
       setForm(initialForm);
-      history.push("/");
+      // history.push("/");
     } catch (err) {
       dispatch({
         type: "LOGIN_FAILURE",
@@ -103,7 +103,11 @@ const Login = () => {
           </Typography>
           {isLoading && <CircularProgress />}
 
-          <Box component="form" onSubmit={handleSubmit}>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            sx={{ marginTop: "1rem" }}
+          >
             <TextField
               label="Username"
               size="small"

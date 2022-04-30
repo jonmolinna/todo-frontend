@@ -146,7 +146,7 @@ const Sidebar = () => {
           }}
           onClick={() => hanbleLogout()}
         >
-          {chatAt(user.firstName)}
+          {chatAt(user?.firstName)}
         </Avatar>
         <Typography
           variant="body2"
@@ -176,9 +176,9 @@ const Sidebar = () => {
             marginTop: "1rem",
           }}
         ></Box>
-        <Box component="div">
-          {list &&
-            list.map(({ nameList, id, tasks }) => (
+        {list && (
+          <Box component="div">
+            {list.map(({ nameList, id, tasks }) => (
               <SidebarRow
                 key={id}
                 Icon={ListOutlinedIcon}
@@ -187,7 +187,8 @@ const Sidebar = () => {
                 idList={id}
               />
             ))}
-        </Box>
+          </Box>
+        )}
 
         <Box
           component="div"

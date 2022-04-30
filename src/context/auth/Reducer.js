@@ -6,13 +6,16 @@ const Reducer = (state, action) => {
         isLoading: true,
         error: null,
       };
-    case "LOGIN_SUCCESS":
-      localStorage.setItem("token-todo", action.payload.token);
+    case "LOGIN_SUCCESS": {
+      if (action.payload.token) {
+        localStorage.setItem("token-todo", action.payload.token);
+      }
       return {
         user: action.payload,
         isLoading: false,
         error: null,
       };
+    }
     case "LOGIN_FAILURE":
       return {
         user: null,
